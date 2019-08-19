@@ -9,11 +9,12 @@ class QuoteSpider(scrapy.Spider):
 
     def parse(self, response):
         all_div_quotes = response.css('div.quote')
-        title = all_div_quotes.css('span.text::text').extract()
-        author = all_div_quotes.css('span.author::text').extract()
-        tag = all_div_quotes.css('.tag::text').extract()
-        yield {
-            'titletext': title,
-            'author': author,
-            'tag': tag
-        }
+        for quote in all_div_quotes:
+            title = quote.css('span.text::text').extract()
+            author = quote.css('span.author::text').extract()
+            tag = quote.css('.tag::text').extract()
+            yield {
+                'titletext': title,
+                'author': author,
+                'tag': tag
+            }
